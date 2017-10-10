@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+## 205IQ.py for  in /home/tetard/EPITECH_Y2/maths/205IQ
+## 
+## Made by benjamin girard
+## Login   <tetard@epitech.net>
+## 
+## Started on  Tue Apr 11 14:24:21 2017 benjamin girard
+## Last update Thu Apr 20 13:23:47 2017 benjamin girard
+##
+
+import sys
+from calc import nl, simpson
+
+from interface import interface
+
+def check_int(string):
+    try:
+        i = int(string)
+        return i
+    except ValueError:
+        sys.exit(84)
+
+def handle_args():
+    res = []
+    args = sys.argv
+    if len(args) < 3 or len(args) > 5:
+        sys.exit(84)
+    for arg in args[1:(len(args))]:
+        res.append(check_int(arg))
+        if res[-1] < 0:
+            sys.exit(84)
+    return res
+
+
+if __name__ == "__main__":
+    args = handle_args()
+    distrib = []
+    if args[0] > 200:
+        sys.exit(84)
+    if len(args) == 2:
+        for i in range(0, 201):
+            distrib.append(nl(args[0], args[1], i))
+            print("{i} %.2f".format(i=i) % distrib[-1])
+        interface(distrib)
+    elif len(args) == 3:
+        res = simpson(0, args[2], args[2] * 10, args[0], args[1])
+        print("%.1f%% of people have a IQ inferior to {arg}".format(arg=args[2]) % res)
+
+    else:
+        if args[2] > args[3]:
+            sys.exit(84)
+        res = simpson(args[2], args[3], args[3] * 10, args[0], args[1])
+        print("%.1f%% of people have a IQ between {mini} and {maxi}".format(mini=args[2], maxi=args[3]) % res)
